@@ -43,6 +43,20 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 4. The node-RED-flow is now getting the latest change records from the PCN-SM and adds an additional change record with the values from the node-RED-UI and writes it back to the PCN-SM. Then the MQTT message is sent to the defined topic.
 5. Mnestix Browser gets the MQTT message and loads the addressed change record from PCN-SM and visualizes it.
 
+### Decisions made in the demonstator
+1. There is just an instance AAS and no type AAS for the asset, so the PCN-submodel is referenced by the instance AAS
+2. For demo purposes the topic for exchanging the MQTT message should be human readable and not Base64-encoded. We took the global AssetId and replaced all characters with special meaning in MQTT-topics with an underscore. So the topic is now `oi4-bike_de_ids_asset_9202_4872_3095_1328`.
+3. The MQTT payload is not standardized in the PCN-SM-Specification so we decided to transport the SM-Id, the Url of the SM and the path to the relevant change record, e.g.: 
+```
+{"submodel":
+{
+ "id":"https://meta-level.de/ids/sm/1897_2537_5972_2262",
+ "path":"https://mnestix-basyx-repo-b36325a9.azurewebsites.net/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy",
+ "changeRecord":"https://mnestix-basyx-repo-b36325a9.azurewebsites.net/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy/submodel-elements/Records[1]"
+ }
+ }
+```
+
 
 [componentDiagram]: images/PCN-Component-Diagram.png
 [node-RED-flow]: images/PCN-node-RED-flow.png
