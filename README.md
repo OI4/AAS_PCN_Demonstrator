@@ -1,4 +1,4 @@
-# AAS_PCN_Demonstrator
+# AAS PCN Demonstrator
 Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Submodel.
 
 ### Component Diagram of PCN-Demonstrator
@@ -12,6 +12,11 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 5. Restart node-red-container by `docker restart node-red`
 6. View your node-RED-Manufacturer-Flow: http://localhost:1880/
 7. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui
+8. **TODO / fix known issues:** 
+- use the rabbitMQ docker container inside the docker-compose network (right now the public/online HiveMQ-server is used because of connection problems from node-RED to rabbitMQ in the docker-compose network)
+- upload demo AASX on startup of BaSyx environment
+- use the Mnestix Browser version which supports the PCN-SM inkluding subscribing to MQTT broker 
+- improve the node-RED-flow to write the correct path of the latest change record in the MQTT payload (is hardcoded to index 1 right now)
 
 
 
@@ -28,7 +33,17 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 | aas-registry | BaSyx component
 | submodel-registry | BaSyx component
 
+### How to present the PCN-Demonstrator
 
+1. Open the demo AAS with PCN-Submodel in the Mnestix Browser. (Mnestix reads the address of the broker and subscribes to the topic defined in the PCN-SM)
+2. [optional] Show the node-RED flow to give an idea what is happening on the manufacturer site. (http://localhost:1880)
+![node-RED-flow][node-RED-flow]
+3. Open the node-RED-UI, fill the values and click 'UPDATE' (http://localhost:1880/ui)
+![node-RED-ui][node-RED-ui]
+4. The node-RED-flow is now getting the latest change records from the PCN-SM and adds an additional change record with the values from the node-RED-UI and writes it back to the PCN-SM. Then the MQTT message is sent to the defined topic.
+5. Mnestix Browser gets the MQTT message and loads the addressed change record from PCN-SM and visualizes it.
 
 
 [componentDiagram]: images/PCN-Component-Diagram.png
+[node-RED-flow]: images/PCN-node-RED-flow.png
+[node-RED-ui]: images/PCN-node-RED-ui.png
