@@ -56,6 +56,9 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
  }
  }
 ```
+### Additional infos regarding Mnestix
+There is a fork of Mnestix created for supporting the PCN submodel: https://github.com/OI4/Mnestix_PCN_Fork \
+In the docker-compose file (https://github.com/OI4/AAS_PCN_Demonstrator/blob/main/docker-compose.yaml) the docker image of this Mnestix PCN fork is used. See tag 'oi4-pcn-showcase' on https://hub.docker.com/r/mnestix/mnestix-browser/tags 
 
 
 [componentDiagram]: images/PCN-Component-Diagram.png

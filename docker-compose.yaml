@@ -30,7 +30,7 @@ services:
     restart: always
   mnestix-browser:
     container_name: mnestix-browser
-    image: mnestix/mnestix-browser:1.4.0
+    image: mnestix/mnestix-browser:oi4-pcn-showcase
     ports:
       - '3000:3000'
     environment:
