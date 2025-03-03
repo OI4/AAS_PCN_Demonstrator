@@ -1,6 +1,9 @@
 # AAS PCN Demonstrator
 Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Submodel.
 
+### Overview of PCN-Demonstrator
+![overview-diagram][overviewDiagram]
+
 ### Component Diagram of PCN-Demonstrator
 ![component-diagram][componentDiagram]
 
@@ -12,12 +15,7 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 5. Restart node-red-container by `docker restart node-red`
 6. View your node-RED-Manufacturer-Flow: http://localhost:1880/
 7. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui
-8. **TODO / fix known issues:** 
-- use the rabbitMQ docker container inside the docker-compose network (right now the public/online HiveMQ-server is used because of connection problems from node-RED to rabbitMQ in the docker-compose network)
-- upload demo AASX on startup of BaSyx environment
-- use the Mnestix Browser version which supports the PCN-SM inkluding subscribing to MQTT broker 
-- improve the node-RED-flow to write the correct path of the latest change record in the MQTT payload (is hardcoded to index 1 right now)
-
+8. **TODO / fix known issues:** : https://github.com/OI4/AAS_PCN_Demonstrator/issues 
 
 
 ### Provided containers
@@ -27,8 +25,8 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 | node-red | App for manufacturer to add new change record to PCN-SM and send MQTT message | http://localhost:1880 / http://localhost:1880/ui|
 | rabbitmq-broker | Event broker for exchanging the MQTT messages | http://localhost:1883
 | mnestix-browser | App for customer to subscribe event broker and visualize change record | http://localhost:3000/
-| mnestix-api | Backend of Mnestix and proxy to BaSyx AAS services | http://localhost:5064/repo/shells / http://localhost:5064/repo/submodels
-| aas-environment | BaSyx AAS services to store AASs and submodels - access via mnestix-api
+| mnestix-api | Backend of Mnestix and proxy to BaSyx AAS services | http://localhost:5064/repo/shells / http://localhost:5064/repo/submodels / http://localhost:5064/swagger/index.html
+| aas-environment | BaSyx AAS services to store AASs and submodels | http://localhost:8081/swagger-ui/index.html
 | aas-discovery | BaSyx component
 | aas-registry | BaSyx component
 | submodel-registry | BaSyx component
@@ -60,7 +58,7 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 There is a fork of Mnestix created for supporting the PCN submodel: https://github.com/OI4/Mnestix_PCN_Fork \
 In the docker-compose file (https://github.com/OI4/AAS_PCN_Demonstrator/blob/main/docker-compose.yaml) the docker image of this Mnestix PCN fork is used. See tag 'oi4-pcn-showcase' on https://hub.docker.com/r/mnestix/mnestix-browser/tags 
 
-
+[overviewDiagram]: images/pcn-demonstrator-overview.png
 [componentDiagram]: images/PCN-Component-Diagram.png
 [node-RED-flow]: images/PCN-node-RED-flow.png
 [node-RED-ui]: images/PCN-node-RED-ui.png

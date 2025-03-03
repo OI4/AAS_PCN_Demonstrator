@@ -64,7 +64,7 @@ services:
       - '5064:5064'
     environment:
       # API key authorization
-      CustomerEndpointsSecurity__ApiKey: ${MNESTIX_BACKEND_API_KEY:-verySecureApiKey}
+      #CustomerEndpointsSecurity__ApiKey: 
       # Connection to Repository Service:
       ReverseProxy__Clusters__aasRepoCluster__Destinations__destination1__Address: 'http://aas-environment:8081/'
       ReverseProxy__Clusters__submodelRepoCluster__Destinations__destination1__Address: 'http://aas-environment:8081/'
@@ -119,6 +119,8 @@ services:
   aas-environment:
     image: eclipsebasyx/aas-environment:2.0.0-milestone-03.1
     container_name: aas-environment
+    ports:
+      - '8081:8081'
     depends_on:
       - mongodb
     environment:
@@ -147,68 +149,4 @@ services:
     networks:
       - mnestix-network
 
-  aas-discovery:
-    image: eclipsebasyx/aas-discovery:2.0.0-milestone-03.1
-    container_name: aas-discovery
-    depends_on:
-      - mongodb
-    environment:
-      BASYX__BACKEND: MongoDB
-      SPRING__DATA__MONGODB__HOST: mongodb
-      SPRING__DATA__MONGODB__DATABASE: basyxdb
-      SPRING__DATA__MONGODB__authentication-database: admin
-      SPRING__DATA__MONGODB__USERNAME: mongoAdmin
-      SPRING__DATA__MONGODB__PASSWORD: mongoPassword
-      BASYX__CORS__ALLOWED-ORIGINS: '*'
-      BASYX__CORS__ALLOWED-METHODS: GET,POST,PATCH,DELETE,PUT,OPTIONS,HEAD
-    healthcheck: # check the endpoint for a valid response (service ready)
-      test: curl -f http://localhost:8081/actuator/health
-      interval: 30s
-      timeout: 10s
-      retries: 6
-    logging:
-      driver: 'json-file'
-      options:
-        max-file: '5'
-        max-size: '100m'
-    networks:
-      - mnestix-network
-
-  aas-registry:
-    image: eclipsebasyx/aas-registry-log-mongodb:2.0.0-milestone-03.1
-    container_name: aas-registry
-    ports:
-      - '8083:8080'
-    depends_on:
-      - mongodb
-    environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongoAdmin:mongoPassword@mongodb:27017/?authSource=admin
-      BASYX__CORS__ALLOWED-ORIGINS: '*'
-      BASYX__CORS__ALLOWED-METHODS: GET,POST,PATCH,DELETE,PUT,OPTIONS,HEAD
-    healthcheck: # check the endpoint for a valid response (service ready)
-      test: curl -f http://localhost:8080/actuator/health
-      interval: 30s
-      timeout: 10s
-      retries: 6
-    networks:
-      - mnestix-network
-
-  submodel-registry:
-    image: eclipsebasyx/submodel-registry-log-mongodb:2.0.0-milestone-03.1
-    container_name: submodel-registry
-    ports:
-      - '8084:8080'
-    depends_on:
-      - mongodb
-    environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongoAdmin:mongoPassword@mongodb:27017/?authSource=admin
-      BASYX__CORS__ALLOWED-ORIGINS: '*'
-      BASYX__CORS__ALLOWED-METHODS: GET,POST,PATCH,DELETE,PUT,OPTIONS,HEAD
-    healthcheck: # check the endpoint for a valid response (service ready)
-      test: curl -f http://localhost:8080/actuator/health
-      interval: 30s
-      timeout: 10s
-      retries: 6
-    networks:
-      - mnestix-network
-
+  
