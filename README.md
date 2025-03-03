@@ -14,9 +14,11 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 4. Install *node-red-dashboard* in the node-red-container by `docker exec -it node-red npm install node-red-dashboard`
 5. Restart node-red-container by `docker restart node-red`
 6. View your node-RED-Manufacturer-Flow: http://localhost:1880/
-7. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui
-8. **TODO / fix known issues:** : https://github.com/OI4/AAS_PCN_Demonstrator/issues 
-
+7. **TODO / fix known issues:** : https://github.com/OI4/AAS_PCN_Demonstrator/issues 
+8. Open Demo-AAS in Mnestix Browser and navigate to PCN-Submodel: http://localhost:3000/ (AAS id missing atm)
+9. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui
+10. Enter new change record in node-RED Dashboard
+11. See change record in Mnestix-Browser
 
 ### Provided containers
 
