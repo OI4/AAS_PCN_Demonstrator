@@ -16,6 +16,12 @@ services:
     networks:
       - mnestix-network
     restart: always
+    entrypoint:
+    - bash
+    - -c
+    - |
+     rabbitmq-plugins enable --offline rabbitmq_mqtt &&
+     exec docker-entrypoint.sh rabbitmq-server
   node-red:
     image: nodered/node-red:latest
     container_name: node-red
@@ -27,7 +33,13 @@ services:
       - mnestix-network
     depends_on:
       - rabbitmq-broker
-    restart: always
+    restart: always    
+    entrypoint:
+    - bash
+    - -c
+    - |
+     npm install node-red-dashboard &&
+     node-red
   mnestix-browser:
     container_name: mnestix-browser
     image: mnestix/mnestix-browser:oi4-pcn-showcase
