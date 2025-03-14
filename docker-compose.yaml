@@ -33,7 +33,10 @@ services:
       - mnestix-network
     depends_on:
       - rabbitmq-broker
-    restart: always    
+    restart: always
+    environment:
+      - AASENVIRONMENTURL=https://mnestix-basyx-repo-b36325a9.azurewebsites.net
+      - APIKEY=A5Z2w$@S%>0M    
     entrypoint:
     - bash
     - -c
