@@ -1,6 +1,6 @@
 [
     {
-        "id": "eb23aa7e0c1a25b2",
+        "id": "2170ab3b2dc23946",
         "type": "tab",
         "label": "PCN Flow",
         "disabled": false,
@@ -8,7 +8,7 @@
         "env": []
     },
     {
-        "id": "1cc3e88ab7ddcf11",
+        "id": "7f19a558fb347076",
         "type": "tab",
         "label": "AAS Server Access",
         "disabled": false,
@@ -16,7 +16,7 @@
         "env": []
     },
     {
-        "id": "8f740f2a02722110",
+        "id": "e6e863e59445af5d",
         "type": "tab",
         "label": "MQTT Flows",
         "disabled": false,
@@ -27,7 +27,7 @@
         "id": "3ab993690910a0e8",
         "type": "mqtt-broker",
         "name": "pcn-hackathon.westeurope.cloudapp.azure.com.mqtt",
-        "broker": "rabbitmq-broker",
+        "broker": "pcn-hackathon.westeurope.cloudapp.azure.com",
         "port": 1883,
         "clientid": "",
         "autoConnect": true,
@@ -171,9 +171,9 @@
         "className": ""
     },
     {
-        "id": "d1f364b6cd789714",
+        "id": "cca9b79ca47e1804",
         "type": "http request",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "GET PCN records",
         "method": "GET",
         "ret": "obj",
@@ -190,14 +190,14 @@
         "y": 580,
         "wires": [
             [
-                "cf883cd797262ddf"
+                "311e7872bf6fe1e2"
             ]
         ]
     },
     {
-        "id": "264333d72f37d8ad",
+        "id": "bc5e7d7782d2dbd4",
         "type": "comment",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "Clean E-Bike PCN Records",
         "info": "",
         "x": 940,
@@ -205,9 +205,9 @@
         "wires": []
     },
     {
-        "id": "217ffc4b0ab51b4b",
+        "id": "2753ae15823a9b58",
         "type": "debug",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "PUT record result",
         "active": false,
         "tosidebar": true,
@@ -222,11 +222,11 @@
         "wires": []
     },
     {
-        "id": "cf883cd797262ddf",
+        "id": "311e7872bf6fe1e2",
         "type": "function",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "getRecords",
-        "func": "var records = msg.payload.value.slice();\n\nvar info = {\n    \"old\": {},\n    \"new\": {}\n};\ninfo.old.length = records.length;\ninfo.old.records = records.slice();\n\n// Use existing records[0] as record JSON template (deep copy)\nvar newRecord = JSON.parse(JSON.stringify(records[0]));\n\n// Change the idShort as identifier to the current record id\nnewRecord.idShort = \"Record__\" + records.length.toString().padStart(4,'0') + \"__\";\n\n// Set the change reason Id type to \"SOFTW\"\nnewRecord.value[4].value[0].value[2].value = msg.changeReason;\n\n// Set the current time as timestamp\nnewRecord.value[10].value = new Date(Date.now()).toISOString();\n\n// Change title in PCN submodel \"idShort\": \"ChanteTitle\"\nnewRecord.value[8].value[0].value[0].text = msg.changeTitle;\n\n// Change detail in PCN submodel \"idShort\": \"ChangeDetail\"\nnewRecord.value[8].value[1].value[0].text = msg.changeDetail;\n\n// Add new PCN record to existing records\nrecords.push(newRecord);\n\n// Add some debug info\ninfo.new.record = newRecord;\ninfo.new.length = records.length;\ninfo.new.records = records;\n\nmsg.payload.value = records;\nmsg.info = info;\nmsg.url = flow.get(\"url\");\nmsg.headers = flow.get(\"headers\");\nmsg.id = flow.get(\"id\");\nmsg.index = msg.payload.value.length - 1;\n\nreturn msg;",
+        "func": "var records = msg.payload.value.slice();\n\nvar info = {\n    \"old\": {},\n    \"new\": {}\n};\ninfo.old.length = records.length;\ninfo.old.records = records.slice();\n\n// Use existing records[0] as record JSON template (deep copy)\nvar newRecord = JSON.parse(JSON.stringify(records[0]));\n\n// Change the idShort as identifier to the current record id\nnewRecord.idShort = \"Record__\" + records.length.toString().padStart(4,'0') + \"__\";\n\n// Set the change reason Id type to \"SOFTW\"\nnewRecord.value[4].value[0].value[2].value = msg.changeReason;\n\n// Set the current time as timestamp\nnewRecord.value[10].value = new Date(Date.now()).toISOString();\n\n// Change title in PCN submodel \"idShort\": \"ChangeTitle\"\nnewRecord.value[8].value[0].value[0].text = msg.changeTitle;\n\n// Change detail in PCN submodel \"idShort\": \"ChangeDetail\"\nnewRecord.value[8].value[1].value[0].text = msg.changeDetail;\n\n// Add new PCN record to existing records\nrecords.push(newRecord);\n\n// Add some debug info\ninfo.new.record = newRecord;\ninfo.new.length = records.length;\ninfo.new.records = records;\n\nmsg.payload.value = records;\nmsg.info = info;\nmsg.url = flow.get(\"url\");\nmsg.headers = flow.get(\"headers\");\nmsg.id = flow.get(\"id\");\nmsg.index = msg.payload.value.length - 1;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -237,18 +237,18 @@
         "y": 580,
         "wires": [
             [
-                "6dbb4685c640ce29"
+                "12040941430b4996"
             ]
         ]
     },
     {
-        "id": "9a443080db52e790",
+        "id": "e7a85ea19e785148",
         "type": "ui_form",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "UpdateChangeRecordForm",
         "label": "Update PCN submodel change record",
         "group": "660b35396f343279",
-        "order": 9,
+        "order": 10,
         "width": 0,
         "height": 0,
         "options": [
@@ -306,34 +306,14 @@
         "y": 580,
         "wires": [
             [
-                "f550ba48a2f4f30c"
+                "5893922182fae339"
             ]
         ]
     },
     {
-        "id": "f550ba48a2f4f30c",
-        "type": "function",
-        "z": "eb23aa7e0c1a25b2",
-        "name": "setProperties",
-        "func": "msg.changeTitle = msg.payload.changeTitle;\nmsg.changeDetail = msg.payload.changeDetail;\nmsg.changeReason = msg.payload.changeReason;\n\nmsg.url = \"https://mnestix-basyx-repo-b36325a9.azurewebsites.net/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy/submodel-elements/Records\";\nmsg.headers = {\"ApiKey\":\"A5Z2w$@S%>0M\"};\nmsg.id = \"https://meta-level.de/ids/sm/1897_2537_5972_2262\";\n\n// Set properties as const for the flow \nflow.set(\"url\", msg.url);\nflow.set(\"headers\", msg.headers);\nflow.set(\"id\", msg.id);\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1190,
-        "y": 580,
-        "wires": [
-            [
-                "d1f364b6cd789714"
-            ]
-        ]
-    },
-    {
-        "id": "6dbb4685c640ce29",
+        "id": "12040941430b4996",
         "type": "http request",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "PUT PCN records with new record",
         "method": "PUT",
         "ret": "obj",
@@ -350,15 +330,15 @@
         "y": 540,
         "wires": [
             [
-                "217ffc4b0ab51b4b",
-                "920390e7c2a3a16f"
+                "2753ae15823a9b58",
+                "a5237dda97dc5a5a"
             ]
         ]
     },
     {
-        "id": "afab94e8bfc5e5f0",
+        "id": "75c2848d0814c70b",
         "type": "http request",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "GET PCN records",
         "method": "GET",
         "ret": "obj",
@@ -375,18 +355,19 @@
         "y": 800,
         "wires": [
             [
-                "bee6fda28f8298b8",
-                "bd9458cfc98c9ede"
+                "713c7d45699b798b",
+                "8437615853be2968",
+                "be63c50d48eabb1f"
             ]
         ]
     },
     {
-        "id": "9d7f3e9a58fa7e85",
+        "id": "3fc2e1472a445eef",
         "type": "ui_button",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "GetCurrentVersionButton",
         "group": "660b35396f343279",
-        "order": 7,
+        "order": 8,
         "width": "5",
         "height": "1",
         "passthru": false,
@@ -404,14 +385,14 @@
         "y": 800,
         "wires": [
             [
-                "3b9937aa37c66de3"
+                "38d1e2eff9d08cf7"
             ]
         ]
     },
     {
-        "id": "bee6fda28f8298b8",
+        "id": "713c7d45699b798b",
         "type": "function",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "getLastRecord",
         "func": "var records = msg.payload.value.slice();\nvar lastRecord = records.pop();\n\nvar returnArray = new Array(6);\n\n// Change record title\nreturnArray[0] = {\n    \"payload\" : lastRecord.value[8].value[0].value[0].text\n};\n\n// Change record timestamp\nreturnArray[1] = {\n    \"payload\" : lastRecord.value[10].value\n};\n\n// Version\nreturnArray[2] = {\n    \"payload\" : msg.payload.value.length\n};\n\n// IdShort\nreturnArray[3] = {\n    \"payload\" : lastRecord.idShort\n};\n\n// Detail\nreturnArray[4] = {\n    \"payload\" : lastRecord.value[8].value[1].value[0].text\n};\n\n// Reason\nreturnArray[5] = {\n    \"payload\" : lastRecord.value[4].value[0].value[2].value\n};\n\nreturn returnArray;",
         "outputs": 6,
@@ -424,31 +405,31 @@
         "y": 800,
         "wires": [
             [
-                "20eafe130c3cefb7"
+                "0df03f6bd349afcd"
             ],
             [
-                "4f15c4444542963b"
+                "abc9d99531f72b9a"
             ],
             [
-                "bcf6bfa9e125fdde"
+                "3739cd6f4093ba9d"
             ],
             [
-                "01bbc337ee55b366"
+                "258f5f8dfef3229e"
             ],
             [
-                "ce8e3488a1d0857d"
+                "51791285bc4bcb27"
             ],
             [
-                "ea4124dcffa126b9"
+                "6ad36dd2d43f9e2e"
             ]
         ]
     },
     {
-        "id": "20eafe130c3cefb7",
+        "id": "0df03f6bd349afcd",
         "type": "ui_text",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "group": "660b35396f343279",
-        "order": 1,
+        "order": 2,
         "width": "0",
         "height": "0",
         "name": "title",
@@ -465,11 +446,11 @@
         "wires": []
     },
     {
-        "id": "4f15c4444542963b",
+        "id": "abc9d99531f72b9a",
         "type": "ui_text",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "group": "660b35396f343279",
-        "order": 3,
+        "order": 4,
         "width": "0",
         "height": "0",
         "name": "last timestamp",
@@ -486,11 +467,11 @@
         "wires": []
     },
     {
-        "id": "bcf6bfa9e125fdde",
+        "id": "3739cd6f4093ba9d",
         "type": "ui_text",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "group": "660b35396f343279",
-        "order": 4,
+        "order": 5,
         "width": "0",
         "height": "0",
         "name": "version",
@@ -507,11 +488,11 @@
         "wires": []
     },
     {
-        "id": "01bbc337ee55b366",
+        "id": "258f5f8dfef3229e",
         "type": "ui_text",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "group": "660b35396f343279",
-        "order": 5,
+        "order": 6,
         "width": "0",
         "height": "0",
         "name": "idShort",
@@ -528,11 +509,11 @@
         "wires": []
     },
     {
-        "id": "ce8e3488a1d0857d",
+        "id": "51791285bc4bcb27",
         "type": "ui_text",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "group": "660b35396f343279",
-        "order": 2,
+        "order": 3,
         "width": "0",
         "height": "0",
         "name": "record detail",
@@ -549,11 +530,11 @@
         "wires": []
     },
     {
-        "id": "ea4124dcffa126b9",
+        "id": "6ad36dd2d43f9e2e",
         "type": "ui_text",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "group": "660b35396f343279",
-        "order": 6,
+        "order": 7,
         "width": "0",
         "height": "0",
         "name": "reason",
@@ -570,9 +551,9 @@
         "wires": []
     },
     {
-        "id": "bd9458cfc98c9ede",
+        "id": "8437615853be2968",
         "type": "function",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "presetChangeRecordForm",
         "func": "var records = msg.payload.value.slice();\nvar length = msg.payload.value.length;\nvar lastRecord = records.pop();\n\nvar newRecord = {\n    \"changeTitle\": \"Firmware update V\" + (length + 1) + \" available\",\n    \"changeDetail\": \"Firmware update from version V\" + length\n        + \" to V\" + (length + 1) + \" is available.\",\n    \"changeVersion\": (length + 1),\n    \"changeIdShort\": \"Record__\" + length.toString().padStart(4, '0') + \"__\",\n    \"changeReason\": lastRecord.value[4].value[0].value[2].value\n};\n\nmsg.payload = newRecord;\n\nreturn msg;",
         "outputs": 1,
@@ -585,17 +566,17 @@
         "y": 680,
         "wires": [
             [
-                "9a443080db52e790"
+                "e7a85ea19e785148"
             ]
         ]
     },
     {
-        "id": "4d2e4f08784139af",
+        "id": "675b9b6a75c35ce6",
         "type": "ui_button",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "CleanVersionRecordsButton",
         "group": "660b35396f343279",
-        "order": 8,
+        "order": 9,
         "width": "5",
         "height": "1",
         "passthru": false,
@@ -613,14 +594,14 @@
         "y": 480,
         "wires": [
             [
-                "36cd572815e0556d"
+                "fba453b2ee448740"
             ]
         ]
     },
     {
-        "id": "8d70d958c7189bb5",
+        "id": "f7fd89121bfc6273",
         "type": "http request",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "GET PCN records",
         "method": "GET",
         "ret": "obj",
@@ -637,16 +618,16 @@
         "y": 480,
         "wires": [
             [
-                "d98f880151034c93"
+                "03af2ebead75099f"
             ]
         ]
     },
     {
-        "id": "d98f880151034c93",
+        "id": "03af2ebead75099f",
         "type": "function",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "cleanRecords",
-        "func": "// Use existing records[0] as record JSON template (deep copy)\nvar firstRecord = JSON.parse(JSON.stringify(msg.payload.value[0]));\n// Change the idShort as identifier to the current record id\nfirstRecord.idShort = \"Record__0000__\";\n// Set the change reason Id type to \"SOFTW\"\nfirstRecord.value[4].value[0].value[2].value = \"SOFTW\";\n// Set the current time as timestamp\nfirstRecord.value[10].value = new Date(Date.now()).toISOString();\n// Change title in PCN submodel \"idShort\": \"ChanteTitle\"\nfirstRecord.value[8].value[0].value[0].text = \"Firmware V1\";\n// Change detail in PCN submodel \"idShort\": \"ChangeDetail\"\nfirstRecord.value[8].value[1].value[0].text = \"The initial firmware version V1 for the device.\";\n\nvar cleanRecords = new Array();\ncleanRecords.push(firstRecord);\n\n// Add initial PCN record to existing records\nmsg.payload.value = cleanRecords;\nmsg.url = flow.get(\"url\");\nmsg.headers = flow.get(\"headers\");\nmsg.id = flow.get(\"id\");\nmsg.index = msg.payload.value.length - 1;\n\nreturn msg;",
+        "func": "// Use existing records[0] as record JSON template (deep copy)\nvar firstRecord = JSON.parse(JSON.stringify(msg.payload.value[0]));\n// Change the idShort as identifier to the current record id\nfirstRecord.idShort = \"Record__0000__\";\n// Set the change reason Id type to \"SOFTW\"\nfirstRecord.value[4].value[0].value[2].value = \"SOFTW\";\n// Set the current time as timestamp\nfirstRecord.value[10].value = new Date(Date.now()).toISOString();\n// Change title in PCN submodel \"idShort\": \"ChangeTitle\"\nfirstRecord.value[8].value[0].value[0].text = \"Firmware V1\";\n// Change detail in PCN submodel \"idShort\": \"ChangeDetail\"\nfirstRecord.value[8].value[1].value[0].text = \"The initial firmware version V1 for the device.\";\n\nvar cleanRecords = new Array();\ncleanRecords.push(firstRecord);\n\n// Add initial PCN record to existing records\nmsg.payload.value = cleanRecords;\nmsg.url = flow.get(\"url\");\nmsg.headers = flow.get(\"headers\");\nmsg.id = flow.get(\"id\");\nmsg.index = msg.payload.value.length - 1;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -657,16 +638,16 @@
         "y": 480,
         "wires": [
             [
-                "6dbb4685c640ce29"
+                "12040941430b4996"
             ]
         ]
     },
     {
-        "id": "920390e7c2a3a16f",
+        "id": "a5237dda97dc5a5a",
         "type": "function",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "sendMqttNotification",
-        "func": "if(msg.statusCode === 204)\n{\n    msg.payload = { \n        \"submodel\": { \n            \"id\": msg.id, \n            \"path\": msg.url, \n            \"changeRecord\": msg.url + \"[\"+ msg.index + \"]\"\n            } };\n    return [msg, null];\n}\nelse{\n    // debug output\n    return [null, msg];\n}",
+        "func": "if(msg.statusCode === 204)\n{\n    msg.topic = global.get(\"messageTopic\");\n    msg.payload = { \n        \"submodel\": { \n            \"id\": msg.id, \n            \"path\": msg.url, \n            \"changeRecord\": msg.url + \"[\"+ msg.index + \"]\"\n            } };\n    return [msg, null];\n}\nelse{\n    // debug output\n    return [null, msg];\n}",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -677,19 +658,19 @@
         "y": 540,
         "wires": [
             [
-                "8d961a19e7c1d998"
+                "dc4cf8a9b1033dbf"
             ],
             [
-                "217ffc4b0ab51b4b"
+                "2753ae15823a9b58"
             ]
         ]
     },
     {
-        "id": "8d961a19e7c1d998",
+        "id": "dc4cf8a9b1033dbf",
         "type": "mqtt out",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "publish MQTT notification",
-        "topic": "oi4-bike_de_ids_asset_9202_4872_3095_1328",
+        "topic": "",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -698,14 +679,14 @@
         "correl": "",
         "expiry": "",
         "broker": "3ab993690910a0e8",
-        "x": 2510,
-        "y": 540,
+        "x": 2590,
+        "y": 480,
         "wires": []
     },
     {
-        "id": "40dfc8b9a8a3b809",
+        "id": "2fc9b2830c5533c2",
         "type": "comment",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "Update E-Bike PCN records with form",
         "info": "",
         "x": 970,
@@ -713,11 +694,11 @@
         "wires": []
     },
     {
-        "id": "36cd572815e0556d",
+        "id": "fba453b2ee448740",
         "type": "function",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
         "name": "setProperties",
-        "func": "msg.changeTitle = msg.payload.changeTitle;\nmsg.changeDetail = msg.payload.changeDetail;\nmsg.changeReason = msg.payload.changeReason;\n\nmsg.url = \"https://mnestix-basyx-repo-b36325a9.azurewebsites.net/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy/submodel-elements/Records\";\nmsg.headers = {\"ApiKey\":\"A5Z2w$@S%>0M\"};\nmsg.id = \"https://meta-level.de/ids/sm/1897_2537_5972_2262\";\n\n// Set properties as const for the flow \nflow.set(\"url\", msg.url);\nflow.set(\"headers\", msg.headers);\nflow.set(\"id\", msg.id);\n\nreturn msg;",
+        "func": "msg.changeTitle = msg.payload.changeTitle;\nmsg.changeDetail = msg.payload.changeDetail;\nmsg.changeReason = msg.payload.changeReason;\n\nmsg.url = global.get(\"submodelUrl\") + \"/submodel-elements/Records\";\nmsg.headers = {\n    \"ApiKey\": global.get(\"apiKey\")\n};\n\nmsg.id = global.get(\"submodelId\");\n\n// Set properties as const for the flow \nflow.set(\"url\", msg.url);\nflow.set(\"headers\", msg.headers);\nflow.set(\"id\", msg.id);\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -728,16 +709,212 @@
         "y": 480,
         "wires": [
             [
-                "8d70d958c7189bb5"
+                "f7fd89121bfc6273"
             ]
         ]
     },
     {
-        "id": "3b9937aa37c66de3",
+        "id": "16b1c224e8a4f8a1",
+        "type": "comment",
+        "z": "2170ab3b2dc23946",
+        "name": "Get the last PCN record as current version",
+        "info": "",
+        "x": 980,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "c224ace44026b8ba",
         "type": "function",
-        "z": "eb23aa7e0c1a25b2",
+        "z": "2170ab3b2dc23946",
+        "name": "getBrokerAndTopic",
+        "func": "var messageTopic = msg.payload.submodelElements\n    .find(element => element.idShort === \"PcnEventsOutgoing\")\n    .messageTopic;\nvar mqttEndpoint = msg.payload.submodelElements\n    .find(element => element.idShort === \"BrokerInformation\")\n    .value\n    .find(element => element.idShort === \"EndpointMqtt\")\n    .value;\n\nglobal.set(\"mqttEndpoint\", mqttEndpoint);\nglobal.set(\"messageTopic\", messageTopic);\n\nmsg.payload = {\n    \"topic\": messageTopic, \n    \"endpoint\": mqttEndpoint\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1770,
+        "y": 80,
+        "wires": [
+            [
+                "10691686e05e6e7c"
+            ]
+        ]
+    },
+    {
+        "id": "bb70ac3538ab1aa1",
+        "type": "comment",
+        "z": "2170ab3b2dc23946",
+        "name": "E-Bike Broker Information (by submodel-elements/idShort)",
+        "info": "",
+        "x": 970,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "7a97c2bad011d989",
+        "type": "http request",
+        "z": "2170ab3b2dc23946",
+        "name": "GET /submodels",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1530,
+        "y": 80,
+        "wires": [
+            [
+                "c224ace44026b8ba"
+            ]
+        ]
+    },
+    {
+        "id": "10691686e05e6e7c",
+        "type": "debug",
+        "z": "2170ab3b2dc23946",
+        "name": "broker Info",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1990,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a18932adf6d2653d",
+        "type": "function",
+        "z": "2170ab3b2dc23946",
+        "name": "getEnvironmentVariables",
+        "func": "var aasServerUrl = env.get(\"AASENVIRONMENTURL\");\nvar apiKey = env.get(\"APIKEY\");\n\n// set default values if environment variables are not set\nif(apiKey === undefined)\n{\n    apiKey = \"A5Z2w$@S%>0M\";\n}\n\nif(aasServerUrl === undefined)\n{\n    aasServerUrl = \"https://mnestix-basyx-repo-b36325a9.azurewebsites.net\";\n}\n\n// set variables globally for the whole node red environment\nglobal.set(\"aasServerUrl\", aasServerUrl);\nglobal.set(\"apiKey\", apiKey);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 80,
+        "wires": [
+            [
+                "dbd049d6f1c88e57"
+            ]
+        ]
+    },
+    {
+        "id": "173a08f39e282fe3",
+        "type": "inject",
+        "z": "2170ab3b2dc23946",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "https://meta-level.de/ids/sm/1897_2537_5972_2262",
+        "payloadType": "str",
+        "x": 710,
+        "y": 80,
+        "wires": [
+            [
+                "a18932adf6d2653d"
+            ]
+        ]
+    },
+    {
+        "id": "dbd049d6f1c88e57",
+        "type": "ui_text_input",
+        "z": "2170ab3b2dc23946",
+        "name": "",
+        "label": "Submodel Id",
+        "tooltip": "",
+        "group": "660b35396f343279",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 1130,
+        "y": 80,
+        "wires": [
+            [
+                "5a414d1c0ba0877a"
+            ]
+        ]
+    },
+    {
+        "id": "5a414d1c0ba0877a",
+        "type": "function",
+        "z": "2170ab3b2dc23946",
+        "name": "setSubmodelUrl",
+        "func": "var submodelId = msg.payload;\nvar encodedSubmodelId = base64urlEncode(submodelId);\nvar aasServerUrl = global.get(\"aasServerUrl\");\nvar submodelUrl = aasServerUrl + \"/submodels/\" + encodedSubmodelId;\n\nglobal.set(\"submodelId\", submodelId);\nglobal.set(\"submodelUrl\", submodelUrl);\n\nmsg.url = submodelUrl;\nreturn msg;\n\n\nfunction base64urlEncode(str) {\n    if (typeof str !== 'string') {\n        throw new TypeError('Input must be a string');\n    }\n \n    return Buffer.from(str, 'utf-8')\n        .toString('base64')\n        .replace(/\\+/g, '-')  // Replace '+' with '-'\n        .replace(/\\//g, '_')  // Replace '/' with '_'\n        .replace(/=+$/, '');  // Remove padding '='\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1320,
+        "y": 80,
+        "wires": [
+            [
+                "7a97c2bad011d989"
+            ]
+        ]
+    },
+    {
+        "id": "5893922182fae339",
+        "type": "function",
+        "z": "2170ab3b2dc23946",
         "name": "setProperties",
-        "func": "msg.changeTitle = msg.payload.changeTitle;\nmsg.changeDetail = msg.payload.changeDetail;\nmsg.changeReason = msg.payload.changeReason;\n\nmsg.url = \"https://mnestix-basyx-repo-b36325a9.azurewebsites.net/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy/submodel-elements/Records\";\nmsg.headers = {\"ApiKey\":\"A5Z2w$@S%>0M\"};\nmsg.id = \"https://meta-level.de/ids/sm/1897_2537_5972_2262\";\n\n// Set properties as const for the flow \nflow.set(\"url\", msg.url);\nflow.set(\"headers\", msg.headers);\nflow.set(\"id\", msg.id);\n\nreturn msg;",
+        "func": "msg.changeTitle = msg.payload.changeTitle;\nmsg.changeDetail = msg.payload.changeDetail;\nmsg.changeReason = msg.payload.changeReason;\n\nmsg.url = global.get(\"submodelUrl\") + \"/submodel-elements/Records\";\nmsg.headers = {\n    \"ApiKey\": global.get(\"apiKey\")\n};\n\nmsg.id = global.get(\"submodelId\");\n\n// Set properties as const for the flow \nflow.set(\"url\", msg.url);\nflow.set(\"headers\", msg.headers);\nflow.set(\"id\", msg.id);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1190,
+        "y": 580,
+        "wires": [
+            [
+                "cca9b79ca47e1804"
+            ]
+        ]
+    },
+    {
+        "id": "38d1e2eff9d08cf7",
+        "type": "function",
+        "z": "2170ab3b2dc23946",
+        "name": "setProperties",
+        "func": "msg.changeTitle = msg.payload.changeTitle;\nmsg.changeDetail = msg.payload.changeDetail;\nmsg.changeReason = msg.payload.changeReason;\n\nmsg.url = global.get(\"submodelUrl\") + \"/submodel-elements/Records\";\nmsg.headers = {\n    \"ApiKey\": global.get(\"apiKey\")\n};\n\nmsg.id = global.get(\"submodelId\");\n\n// Set properties as const for the flow \nflow.set(\"url\", msg.url);\nflow.set(\"headers\", msg.headers);\nflow.set(\"id\", msg.id);\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -748,24 +925,31 @@
         "y": 800,
         "wires": [
             [
-                "afab94e8bfc5e5f0"
+                "75c2848d0814c70b"
             ]
         ]
     },
     {
-        "id": "ddd3ace4c52deb10",
-        "type": "comment",
-        "z": "eb23aa7e0c1a25b2",
-        "name": "Get the last PCN record as current version",
-        "info": "",
-        "x": 980,
-        "y": 760,
+        "id": "be63c50d48eabb1f",
+        "type": "debug",
+        "z": "2170ab3b2dc23946",
+        "name": "PCN records",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1630,
+        "y": 680,
         "wires": []
     },
     {
-        "id": "727a6dc5d3186ac2",
+        "id": "2d99e34f4162648d",
         "type": "http request",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "GET /shells",
         "method": "GET",
         "ret": "obj",
@@ -782,14 +966,14 @@
         "y": 160,
         "wires": [
             [
-                "a78a6f902e2a440c"
+                "ca9fc719f29afd12"
             ]
         ]
     },
     {
-        "id": "7061447d14cc9395",
+        "id": "06b9034e2e25c174",
         "type": "inject",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "",
         "props": [
             {
@@ -811,14 +995,14 @@
         "y": 160,
         "wires": [
             [
-                "727a6dc5d3186ac2"
+                "2d99e34f4162648d"
             ]
         ]
     },
     {
-        "id": "fd90acb1026888da",
+        "id": "7801cf0d2b2822e7",
         "type": "http request",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "GET /shells/{ebike}",
         "method": "GET",
         "ret": "obj",
@@ -842,14 +1026,14 @@
         "y": 300,
         "wires": [
             [
-                "a78a6f902e2a440c"
+                "ca9fc719f29afd12"
             ]
         ]
     },
     {
-        "id": "4387b78abcdcdda2",
+        "id": "9015f24c72d6453d",
         "type": "http request",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "GET /submodels",
         "method": "GET",
         "ret": "obj",
@@ -866,14 +1050,14 @@
         "y": 400,
         "wires": [
             [
-                "a78a6f902e2a440c"
+                "ca9fc719f29afd12"
             ]
         ]
     },
     {
-        "id": "a809af892c3f74f9",
+        "id": "4e48fa255605be20",
         "type": "comment",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "Shells access test",
         "info": "",
         "x": 270,
@@ -881,9 +1065,9 @@
         "wires": []
     },
     {
-        "id": "db729d670b61b46c",
+        "id": "c7e6944fdddf10ca",
         "type": "inject",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "",
         "props": [
             {
@@ -905,14 +1089,14 @@
         "y": 300,
         "wires": [
             [
-                "fd90acb1026888da"
+                "7801cf0d2b2822e7"
             ]
         ]
     },
     {
-        "id": "2ca646f60904dc2e",
+        "id": "3cbdd07b42209eb1",
         "type": "comment",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "E-Bike Shell",
         "info": "",
         "x": 250,
@@ -920,9 +1104,9 @@
         "wires": []
     },
     {
-        "id": "c4e20e5adfae3648",
+        "id": "96b7e0505ec13d21",
         "type": "comment",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "E-Bike PCN Submodel",
         "info": "",
         "x": 280,
@@ -930,9 +1114,9 @@
         "wires": []
     },
     {
-        "id": "1bf7e1485c44d46d",
+        "id": "f9cee72cedc5ab75",
         "type": "inject",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "",
         "props": [
             {
@@ -954,31 +1138,31 @@
         "y": 400,
         "wires": [
             [
-                "4387b78abcdcdda2"
+                "9015f24c72d6453d"
             ]
         ]
     },
     {
-        "id": "a78a6f902e2a440c",
+        "id": "ca9fc719f29afd12",
         "type": "debug",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "GET request debug",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 990,
+        "x": 1310,
         "y": 260,
         "wires": []
     },
     {
-        "id": "b6e959ecf5ce2438",
+        "id": "9ceef4f6ef5fc97a",
         "type": "http request",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "GET /submodels",
         "method": "GET",
         "ret": "obj",
@@ -992,27 +1176,27 @@
         "senderr": false,
         "headers": [],
         "x": 530,
-        "y": 860,
+        "y": 820,
         "wires": [
             [
-                "ddac67faadf71b31"
+                "b37e84f5c3a65a78"
             ]
         ]
     },
     {
-        "id": "10f86476d5a17f8c",
+        "id": "5243137c673630f5",
         "type": "comment",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "E-Bike Broker Information",
         "info": "",
         "x": 290,
-        "y": 820,
+        "y": 780,
         "wires": []
     },
     {
-        "id": "99b10066de40cfc8",
+        "id": "a2b21441928c7695",
         "type": "inject",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "",
         "props": [
             {
@@ -1031,17 +1215,17 @@
         "payload": "",
         "payloadType": "date",
         "x": 260,
-        "y": 860,
+        "y": 820,
         "wires": [
             [
-                "b6e959ecf5ce2438"
+                "9ceef4f6ef5fc97a"
             ]
         ]
     },
     {
-        "id": "ddac67faadf71b31",
+        "id": "b37e84f5c3a65a78",
         "type": "function",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "extractBrokerInformation",
         "func": "// Url: idShort = \"EndpointMqtt\"\nmsg.url = msg.payload.result[0].value[0].value;\n\n// Topic: idShort = \"PcnEventsOutgoing\"\nmsg.topic = msg.payload.result[1].messageTopic;\n\nreturn msg;",
         "outputs": 1,
@@ -1051,17 +1235,17 @@
         "finalize": "",
         "libs": [],
         "x": 810,
-        "y": 860,
+        "y": 820,
         "wires": [
             [
-                "a78a6f902e2a440c"
+                "ca9fc719f29afd12"
             ]
         ]
     },
     {
-        "id": "c7a48b32ebc63c41",
+        "id": "bc34ccb96f007554",
         "type": "http request",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "GET /submodels/.../BrokerInformation",
         "method": "GET",
         "ret": "obj",
@@ -1078,14 +1262,14 @@
         "y": 620,
         "wires": [
             [
-                "a78a6f902e2a440c"
+                "ca9fc719f29afd12"
             ]
         ]
     },
     {
-        "id": "8c35380e4f70500f",
+        "id": "caf96b38da257649",
         "type": "comment",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "E-Bike Broker Information (by submodel-elements/idShort)",
         "info": "",
         "x": 390,
@@ -1093,9 +1277,9 @@
         "wires": []
     },
     {
-        "id": "bf8c370c6cde43c9",
+        "id": "afaef83687f12ac6",
         "type": "inject",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "",
         "props": [
             {
@@ -1117,14 +1301,14 @@
         "y": 620,
         "wires": [
             [
-                "c7a48b32ebc63c41"
+                "bc34ccb96f007554"
             ]
         ]
     },
     {
-        "id": "4820285f2e93a3b0",
+        "id": "18d898c3bfc58570",
         "type": "http request",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "GET /submodels/.../PcnEventsOutgoing",
         "method": "GET",
         "ret": "obj",
@@ -1141,14 +1325,14 @@
         "y": 680,
         "wires": [
             [
-                "a78a6f902e2a440c"
+                "ca9fc719f29afd12"
             ]
         ]
     },
     {
-        "id": "a006c09ac84c898e",
+        "id": "18a71b0d78fb8fce",
         "type": "inject",
-        "z": "1cc3e88ab7ddcf11",
+        "z": "7f19a558fb347076",
         "name": "",
         "props": [
             {
@@ -1170,14 +1354,14 @@
         "y": 680,
         "wires": [
             [
-                "4820285f2e93a3b0"
+                "18d898c3bfc58570"
             ]
         ]
     },
     {
-        "id": "8494720818162006",
+        "id": "f76c117d9f14a2c8",
         "type": "mqtt in",
-        "z": "8f740f2a02722110",
+        "z": "e6e863e59445af5d",
         "name": "",
         "topic": "#",
         "qos": "2",
@@ -1191,14 +1375,14 @@
         "y": 120,
         "wires": [
             [
-                "a277964ed7fed32a"
+                "d2a20e5ac3dad952"
             ]
         ]
     },
     {
-        "id": "a277964ed7fed32a",
+        "id": "d2a20e5ac3dad952",
         "type": "debug",
-        "z": "8f740f2a02722110",
+        "z": "e6e863e59445af5d",
         "name": "MQTT output debug",
         "active": true,
         "tosidebar": true,
@@ -1213,9 +1397,9 @@
         "wires": []
     },
     {
-        "id": "88cbbb1aee744678",
+        "id": "164b14d05bc19a56",
         "type": "comment",
-        "z": "8f740f2a02722110",
+        "z": "e6e863e59445af5d",
         "name": "MQTT Subscription",
         "info": "",
         "x": 270,
@@ -1223,9 +1407,9 @@
         "wires": []
     },
     {
-        "id": "f80a216ae584f246",
+        "id": "da5fdda9eeda75de",
         "type": "inject",
-        "z": "8f740f2a02722110",
+        "z": "e6e863e59445af5d",
         "name": "",
         "props": [
             {
@@ -1247,14 +1431,14 @@
         "y": 260,
         "wires": [
             [
-                "7a03087f03c3a3b7"
+                "3b58b11c323436f1"
             ]
         ]
     },
     {
-        "id": "7a03087f03c3a3b7",
+        "id": "3b58b11c323436f1",
         "type": "json",
-        "z": "8f740f2a02722110",
+        "z": "e6e863e59445af5d",
         "name": "",
         "property": "payload",
         "action": "obj",
@@ -1263,15 +1447,15 @@
         "y": 260,
         "wires": [
             [
-                "106dc058be70f1f5",
-                "d9938a2ea8b457d7"
+                "70b17d1f9a69f965",
+                "26b650a3847aa4a1"
             ]
         ]
     },
     {
-        "id": "106dc058be70f1f5",
+        "id": "70b17d1f9a69f965",
         "type": "debug",
-        "z": "8f740f2a02722110",
+        "z": "e6e863e59445af5d",
         "name": "MQTT test message debug",
         "active": false,
         "tosidebar": true,
@@ -1286,9 +1470,9 @@
         "wires": []
     },
     {
-        "id": "d45423e3a45a417c",
+        "id": "1201f7fcb7ddb37a",
         "type": "comment",
-        "z": "8f740f2a02722110",
+        "z": "e6e863e59445af5d",
         "name": "MQTT update message test",
         "info": "",
         "x": 300,
@@ -1296,9 +1480,9 @@
         "wires": []
     },
     {
-        "id": "d9938a2ea8b457d7",
+        "id": "26b650a3847aa4a1",
         "type": "mqtt out",
-        "z": "8f740f2a02722110",
+        "z": "e6e863e59445af5d",
         "name": "",
         "topic": "oi4-bike_de_ids_asset_9202_4872_3095_1328",
         "qos": "",
