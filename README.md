@@ -15,8 +15,10 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 
 ### How to run the PCN-Demonstrator on your machine
 1. Copy docker-compose.yaml and the folder "node-red-data" to your machine
-2. Run `docker compose up` in the folder where docker-compose.yaml is located
+2. Run `docker compose up -d` in the folder where docker-compose.yaml is located
 3. Wait until all components are up and running. 
+4. Install *node-red-dashboard* in the node-red-container by `docker exec -it node-red npm install node-red-dashboard`
+5. Restart node-red-container by `docker restart node-red`
 6. View your node-RED-Manufacturer-Flow: http://localhost:1880/
 7. Open Demo-AAS in Mnestix Browser and navigate to PCN-Submodel: http://localhost:3000/ (AAS id missing atm)
 8. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui

@@ -36,13 +36,7 @@ services:
     restart: always
     environment:
       - AASENVIRONMENTURL=https://mnestix-basyx-repo-b36325a9.azurewebsites.net
-      - APIKEY=A5Z2w$@S%>0M    
-    entrypoint:
-    - bash
-    - -c
-    - |
-     npm install node-red-dashboard &&
-     node-red
+      - APIKEY=A5Z2w$@S%>0M        
   mnestix-browser:
     container_name: mnestix-browser
     image: mnestix/mnestix-browser:oi4-pcn-showcase
