@@ -7,9 +7,15 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 ### Component Diagram of PCN-Demonstrator
 ![component-diagram][componentDiagram]
 
+### Requirements
+- Linux or WSL
+- Docker
+- Docker-Compose
+- Processor Architecture: amd64 (at the moment not all images are available for arm64 so you cannot run this demonstrator on your Raspberry Pi)
+
 ### How to run the PCN-Demonstrator on your machine
 1. Copy docker-compose.yaml and the folder "node-red-data" to your machine
-2. Run `docker-compose up` in the folder where docker-compose.yaml is located
+2. Run `docker compose up` in the folder where docker-compose.yaml is located
 3. Wait until all components are up and running. 
 6. View your node-RED-Manufacturer-Flow: http://localhost:1880/
 7. Open Demo-AAS in Mnestix Browser and navigate to PCN-Submodel: http://localhost:3000/ (AAS id missing atm)
