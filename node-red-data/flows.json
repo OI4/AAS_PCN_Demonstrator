@@ -1425,7 +1425,7 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{\"pcn\":\"test\",\"submodel\":\"Reference\"}",
+        "payload": "{\"submodel\":{\"id\":\"https://meta-level.de/ids/sm/1897_2537_5972_2262\",\"path\":\"http://localhost:8081/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy\",\"changeRecord\":\"http://localhost:8081/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy/submodel-elements/Records[2]/$value\"}}",
         "payloadType": "json",
         "x": 250,
         "y": 260,
