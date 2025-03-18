@@ -12,15 +12,16 @@ services:
     container_name: rabbitmq-broker
     ports:
      - "1883:1883"  # MQTT Port
+     - "15675:15675" # WS Port
      - "15672:15672"  # Management UI
     networks:
       - mnestix-network
-    restart: always
+    restart: always   
     entrypoint:
     - bash
     - -c
     - |
-     rabbitmq-plugins enable --offline rabbitmq_mqtt &&
+     rabbitmq-plugins enable --offline rabbitmq_mqtt rabbitmq_web_mqtt &&
      exec docker-entrypoint.sh rabbitmq-server
   node-red:
     image: nodered/node-red:latest
@@ -35,7 +36,7 @@ services:
       - rabbitmq-broker
     restart: always
     environment:
-      - AASENVIRONMENTURL=https://mnestix-basyx-repo-b36325a9.azurewebsites.net
+      - AASENVIRONMENTURL=aas-environment:8081
       - APIKEY=A5Z2w$@S%>0M        
   mnestix-browser:
     container_name: mnestix-browser

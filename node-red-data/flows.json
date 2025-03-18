@@ -26,8 +26,8 @@
     {
         "id": "3ab993690910a0e8",
         "type": "mqtt-broker",
-        "name": "pcn-hackathon.westeurope.cloudapp.azure.com.mqtt",
-        "broker": "pcn-hackathon.westeurope.cloudapp.azure.com",
+        "name": "local rabbitmq-broker",
+        "broker": "rabbitmq-broker",
         "port": 1883,
         "clientid": "",
         "autoConnect": true,

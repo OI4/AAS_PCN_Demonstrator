@@ -17,31 +17,31 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 1. Copy docker-compose.yaml and the folder "node-red-data" to your machine
 2. Run `docker compose up -d` in the folder where docker-compose.yaml is located
 3. Wait until all components are up and running. 
-4. Install *node-red-dashboard* in the node-red-container by `docker exec -it node-red npm install node-red-dashboard`
-5. Restart node-red-container by `docker restart node-red`
-6. View your node-RED-Manufacturer-Flow: http://localhost:1880/
-7. Import Demo AAS with PNC-Submodel to BaSyx AAS Environment: \
-7.1: Open *POST Submodel* Endpoint in Swagger-UI: http://localhost:8081/swagger-ui/index.html#/Submodel%20Repository%20API/postSubmodel \
-7.2: Click "Try it out" and copy the json content of [Demo PCN-Submodel](/demo-pcn-submodel.json) to the "Request body"-form and click "Execute". \
-7.3: Open *POST AAS* Endpoint in Swagger-UI: http://localhost:8081/swagger-ui/index.html#/Asset%20Administration%20Shell%20Repository%20API/postAssetAdministrationShell \
-7.4: Click "Try it out" and copy the json content of [Demo AAS](/demo-AAS.json), which already has a reference to the PCN-submodel, to the "Request body"-form and click "Execute". \
-8. Open Demo-AAS in Mnestix Browser and navigate to PCN-Submodel: http://localhost:3000/en/viewer/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9hYXMvNzAzNV8zOTEzXzc1OTFfNjYwMg
-9. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui
-10. Enter new change record in node-RED Dashboard
-11. See change record in Mnestix-Browser
+4. Add additional user to rabbitMQ by `docker exec -it rabbitmq-broker rabbitmqctl add_user 'rabbit-user' 'JvFNXcxtm5AAh3Wj0yry'`
+5. Grant permissions to added rabbitMQ-user by `docker exec -it rabbitmq-broker rabbitmqctl set_permissions -p "/" "rabbit-user" ".*" ".*" ".*"`
+5. Install *node-red-dashboard* in the node-red-container by `docker exec -it node-red npm install node-red-dashboard`
+6. Restart node-red-container by `docker restart node-red`
+7. View your node-RED-Manufacturer-Flow: http://localhost:1880/
+8. Import Demo AAS with PNC-Submodel to BaSyx AAS Environment: \
+8.1: Open *POST Submodel* Endpoint in Swagger-UI: http://localhost:8081/swagger-ui/index.html#/Submodel%20Repository%20API/postSubmodel \
+8.2: Click "Try it out" and copy the json content of [Demo PCN-Submodel](/demo-pcn-submodel.json) to the "Request body"-form and click "Execute". \
+8.3: Open *POST AAS* Endpoint in Swagger-UI: http://localhost:8081/swagger-ui/index.html#/Asset%20Administration%20Shell%20Repository%20API/postAssetAdministrationShell \
+8.4: Click "Try it out" and copy the json content of [Demo AAS](/demo-AAS.json), which already has a reference to the PCN-submodel, to the "Request body"-form and click "Execute". \
+9. Open Demo-AAS in Mnestix Browser and navigate to PCN-Submodel: http://localhost:3000/en/viewer/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9hYXMvNzAzNV8zOTEzXzc1OTFfNjYwMg (a green checkmark in the line of "Connected" visualized the established connection to the MQTT broker.)
+10. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui
+11. Enter new change record in node-RED Dashboard: http://localhost:1880/ui
+12. See change record in Mnestix-Browser - there should be a popup after receiving a message from MQTT broker: http://localhost:3000/en/viewer/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9hYXMvNzAzNV8zOTEzXzc1OTFfNjYwMg
 
 ### Provided containers
 
 | Container | Description | URI of running instance |
 | ----------- | ----------- | ----------------|
 | node-red | App for manufacturer to add new change record to PCN-SM and send MQTT message | http://localhost:1880 / http://localhost:1880/ui|
-| rabbitmq-broker | Event broker for exchanging the MQTT messages | http://localhost:1883 / http://localhost:15672 
+| rabbitmq-broker | Event broker for exchanging the MQTT messages | http://localhost:1883 
+| rabbitmq-broker | RabbitMQ Management Console (username: rabbit-user, PW: JvFNXcxtm5AAh3Wj0yry) | http://localhost:15672
 | mnestix-browser | App for customer to subscribe event broker and visualize change record | http://localhost:3000/
 | mnestix-api | Backend of Mnestix and proxy to BaSyx AAS services | http://localhost:5064/repo/shells / http://localhost:5064/repo/submodels / http://localhost:5064/swagger/index.html
 | aas-environment | BaSyx AAS services to store AASs and submodels | http://localhost:8081/swagger-ui/index.html
-| aas-discovery | BaSyx component
-| aas-registry | BaSyx component
-| submodel-registry | BaSyx component
 
 ### How to present the PCN-Demonstrator
 
@@ -62,12 +62,13 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 {
  "id":"https://meta-level.de/ids/sm/1897_2537_5972_2262",
  "path":"https://mnestix-basyx-repo-b36325a9.azurewebsites.net/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy",
- "changeRecord":"https://mnestix-basyx-repo-b36325a9.azurewebsites.net/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy/submodel-elements/Records[1]"
+ "changeRecord":"https://mnestix-basyx-repo-b36325a9.azurewebsites.net/submodels/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9zbS8xODk3XzI1MzdfNTk3Ml8yMjYy/submodel-elements/Records[1]/$value"
  }
  }
 ```
 ### Additional infos regarding Mnestix
 There is a fork of Mnestix created for supporting the PCN submodel: https://github.com/OI4/Mnestix_PCN_Fork \
+The relevant code for evaluating the PCN-Submodel and subscribing the MQTT broker, which was written in the hackathon, is here: https://github.com/OI4/Mnestix_PCN-Fork/tree/pcn_submodel/src/user-plugins/submodels/productChangeNotification \
 In the docker-compose file (https://github.com/OI4/AAS_PCN_Demonstrator/blob/main/docker-compose.yaml) the docker image of this Mnestix PCN fork is used. See tag 'oi4-pcn-showcase' on https://hub.docker.com/r/mnestix/mnestix-browser/tags 
 
 [overviewDiagram]: images/pcn-demonstrator-overview.png
