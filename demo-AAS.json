@@ -1,0 +1,33 @@
+{
+  "modelType": "AssetAdministrationShell",
+  "assetInformation": {
+    "assetKind": "Instance",
+    "globalAssetId": "https://oi4-bike.de/ids/asset/9202_4872_3095_1328"
+  },
+  "submodels": [
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://meta-level.de/ids/sm/1897_2537_5972_2262"
+        }
+      ],
+      "type": "ModelReference"
+    }
+  ],
+  "administration": {
+    "creator": {
+      "keys": [
+        {
+          "type": "GlobalReference",
+          "value": "AasDesigner"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    "revision": "0",
+    "version": "1"
+  },
+  "id": "https://meta-level.de/ids/aas/7035_3913_7591_6602",
+  "idShort": "MyFirstEBike"
+}

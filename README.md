@@ -20,10 +20,15 @@ Demonstrator for the Product Change Notification Use Case. Uses AAS and PCN-Subm
 4. Install *node-red-dashboard* in the node-red-container by `docker exec -it node-red npm install node-red-dashboard`
 5. Restart node-red-container by `docker restart node-red`
 6. View your node-RED-Manufacturer-Flow: http://localhost:1880/
-7. Open Demo-AAS in Mnestix Browser and navigate to PCN-Submodel: http://localhost:3000/ (AAS id missing atm)
-8. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui
-9. Enter new change record in node-RED Dashboard
-10. See change record in Mnestix-Browser
+7. Import Demo AAS with PNC-Submodel to BaSyx AAS Environment: \
+7.1: Open *POST Submodel* Endpoint in Swagger-UI: http://localhost:8081/swagger-ui/index.html#/Submodel%20Repository%20API/postSubmodel \
+7.2: Click "Try it out" and copy the json content of [Demo PCN-Submodel](/demo-pcn-submodel.json) to the "Request body"-form and click "Execute". \
+7.3: Open *POST AAS* Endpoint in Swagger-UI: http://localhost:8081/swagger-ui/index.html#/Asset%20Administration%20Shell%20Repository%20API/postAssetAdministrationShell \
+7.4: Click "Try it out" and copy the json content of [Demo AAS](/demo-AAS.json), which already has a reference to the PCN-submodel, to the "Request body"-form and click "Execute". \
+8. Open Demo-AAS in Mnestix Browser and navigate to PCN-Submodel: http://localhost:3000/en/viewer/aHR0cHM6Ly9tZXRhLWxldmVsLmRlL2lkcy9hYXMvNzAzNV8zOTEzXzc1OTFfNjYwMg
+9. View your node-RED Dashboard to enter PCN-Record and Description: http://localhost:1880/ui
+10. Enter new change record in node-RED Dashboard
+11. See change record in Mnestix-Browser
 
 ### Provided containers
 
