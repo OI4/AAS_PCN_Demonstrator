@@ -36,7 +36,8 @@ services:
       - rabbitmq-broker
     restart: always
     environment:
-      - AASENVIRONMENTURL=aas-environment:8081
+      - AASENVIRONMENTURL=aas-environment:8081 # Node-RED uses this for getting AAS/SM from AAS-Environment-container
+      - AASENVIRONMENTURL_EXTERNAL=http://localhost:8081 # for usage outside the Node-RED container, e.g. in the MQTT-Payload for Mnestix
       - APIKEY=A5Z2w$@S%>0M        
   mnestix-browser:
     container_name: mnestix-browser
