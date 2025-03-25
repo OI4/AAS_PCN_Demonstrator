@@ -60,6 +60,8 @@ services:
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-verySecureNextAuthSecret}
       IMPRINT_URL: ""
       DATA_PRIVACY_URL: ""
+      MQTT_LOGIN: 'rabbit-user'
+      MQTT_PASSWORD: 'JvFNXcxtm5AAh3Wj0yry'
     depends_on:
       aas-environment:
         condition: service_healthy # only after the healthcheck in aas is successful, the mnestix container is being created
