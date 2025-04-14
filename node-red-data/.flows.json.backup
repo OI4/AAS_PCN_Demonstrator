@@ -647,7 +647,7 @@
         "type": "function",
         "z": "2170ab3b2dc23946",
         "name": "sendMqttNotification",
-        "func": "if(msg.statusCode === 204)\n{\n    msg.topic = global.get(\"messageTopic\");\n    msg.payload = { \n        \"submodel\": { \n            \"id\": msg.id, \n            \"path\": msg.url, \n            \"changeRecord\": msg.url + \"[\" + msg.index + \"]/$value\"\n            } };\n    return [msg, null];\n}\nelse{\n    // debug output\n    return [null, msg];\n}",
+        "func": "if(msg.statusCode === 204)\n{\n    var path = global.get(\"submodelUrlExternal\") + \"/submodel-elements/Records\";\n    msg.topic = global.get(\"messageTopic\");\n    msg.payload = { \n        \"submodel\": { \n            \"id\": msg.id, \n            \"path\": path, \n            \"changeRecord\": path + \"[\" + msg.index + \"]/$value\"\n            } };\n    return [msg, null];\n}\nelse{\n    // debug output\n    return [null, msg];\n}",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,

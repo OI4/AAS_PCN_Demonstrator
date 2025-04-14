@@ -670,7 +670,7 @@
         "type": "mqtt out",
         "z": "2170ab3b2dc23946",
         "name": "publish MQTT notification",
-        "topic": "",
+        "topic": "oi4-bike_de_ids_asset_9202_4872_3095_1328",
         "qos": "",
         "retain": "",
         "respTopic": "",
